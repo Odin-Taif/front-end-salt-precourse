@@ -5,13 +5,16 @@ import { FieldValues, useForm, SubmitHandler } from "react-hook-form";
 import Heading from "@/app/components/reusable/Heading";
 import Input from "../components/reusable/Input";
 import axios from "axios";
+import { signUpSchema } from "../zod-validation/zod-validiation";
+import { z } from "zod";
 
 const SignForm = () => {
   const {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
+    reset,
+    // formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
       name: "",
@@ -21,18 +24,31 @@ const SignForm = () => {
   });
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [errors, setErrors] = useState({ name: "", email: "", password: "" });
   const router = useRouter();
 
   // const onSubmit: SubmitHandler<FieldValues> = (data) => console.log(data);
   // Function to handle form submission
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    // console.log(data);
+    const validation = signUpSchema.safeParse(data);
+    if (!validation.success) {
+      const errorMessages = validation.error.format();
+      setErrors({
+        name: errorMessages.name?._errors[0] || "",
+        email: errorMessages.email?._errors[0] || "",
+        password: errorMessages.password?._errors[0] || "",
+      });
+      return;
+    }
+    console.log("Form data is valid:", validation.data);
     setIsLoading(true);
-    console.log(data);
     axios
-      .post("http://localhost:3000/api/v1/users/signup", data)
+      .post("https://salt.odinobusi.online/api/v1/users/signup", data)
       .catch((err: any) => console.log(err))
       .then(() => {
         setIsLoading(false);
+        reset();
       });
   };
   return (
@@ -46,31 +62,33 @@ const SignForm = () => {
               label="Email Address"
               disabled={isLoading}
               register={register}
-              errors={errors}
               required
               validate={() => console.log("first")}
             />
+            {errors.email && <p style={{ color: "red" }}>{errors.email}</p>}
 
             <Input
               id="name"
               label="Full Name"
               disabled={isLoading}
               register={register}
-              errors={errors}
               validate={() => console.log("first")}
               required
             />
+            {errors.name && <p style={{ color: "red" }}>{errors.name}</p>}
 
             <Input
               id="password"
               label="Password"
               disabled={isLoading}
               register={register}
-              errors={errors}
               required
               validate={() => console.log("first")}
               type="password"
             />
+            {errors.password && (
+              <p style={{ color: "red" }}>{errors.password}</p>
+            )}
           </form>
 
           <button className="btn btn-accent" onClick={handleSubmit(onSubmit)}>

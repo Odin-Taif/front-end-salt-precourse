@@ -10,7 +10,7 @@ type Props = {
   disabled?: boolean;
   required?: boolean | string;
   register: UseFormRegister<FieldValues>;
-  errors: FieldErrors;
+  // errors: FieldErrors;
   onFocus?: () => void;
   onBlur?: () => void; // Add the onFocus prop
   validate?: FieldValues;
@@ -23,7 +23,6 @@ function Input({
   type,
   disabled,
   required,
-  errors,
   validate,
   register,
   onFocus, // Destructure the onFocus prop
@@ -47,9 +46,7 @@ function Input({
         type={
           type === "password" ? (passwordShown ? "text" : "password") : type
         }
-        className={`peer relative z-10 w-full p-4 pl-4 font-light bg-transparent border-2 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed ${
-          errors[id] ? "border-rose-500" : "border-neutral-300"
-        } ${errors[id] ? "focus:border-rose-500" : "focus:border-black"}`}
+        className={`peer relative z-10 w-full p-4 pl-4 font-light bg-transparent border-2 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed `}
       />
       {type &&
         type === "password" &&
@@ -67,9 +64,7 @@ function Input({
           />
         ))}
       <label
-        className={`absolute text-sm duration-150 transform -translate-y-4 top-5 left-4 z-9 origin-[0] peer-placeholder-shown:scale-75 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 ${
-          errors[id] ? "text-rose-500" : "text-zinc-400"
-        }`}
+        className={`absolute text-sm duration-150 transform -translate-y-4 top-5 left-4 z-9 origin-[0] peer-placeholder-shown:scale-75 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 `}
         htmlFor={id}
       >
         {label}
