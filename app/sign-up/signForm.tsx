@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { FieldValues, useForm, SubmitHandler } from "react-hook-form";
 import Heading from "@/app/components/reusable/Heading";
 import Input from "../components/reusable/Input";
+import axios from "axios";
 
 const SignForm = () => {
   const {
@@ -18,9 +19,22 @@ const SignForm = () => {
       password: "",
     },
   });
-  const onSubmit: SubmitHandler<FieldValues> = (data) => console.log(data);
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
+
+  // const onSubmit: SubmitHandler<FieldValues> = (data) => console.log(data);
+  // Function to handle form submission
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    setIsLoading(true);
+    console.log(data);
+    axios
+      .post("http://localhost:3000/api/v1/users/signup", data)
+      .catch((err: any) => console.log(err))
+      .then(() => {
+        setIsLoading(false);
+      });
+  };
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
       <div className="bg-gray-100 text-black rounded m-auto p-3 w-full max-w-md sm:p-8  md:max-w-lg  md:p-8 lg:max-w-xl xl:max-w-2xl">
@@ -58,8 +72,8 @@ const SignForm = () => {
               type="password"
             />
           </form>
-          // Add a button to submit the form
-          <button className="btn" onClick={handleSubmit(onSubmit)}>
+
+          <button className="btn btn-accent" onClick={handleSubmit(onSubmit)}>
             {isLoading ? (
               <span className="loading loading-spinner">Loading...</span>
             ) : (
@@ -73,7 +87,7 @@ const SignForm = () => {
             <div>
               Already have an account?{" "}
               <span
-                onClick={() => router.push("/login")}
+                onClick={() => router.push("/sign-in")}
                 className="text-neutral-800 cursor-pointer hover:underline"
               >
                 Log in
