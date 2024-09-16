@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, Mock } from "vitest";
 import { useRouter } from "next/navigation";
 import SignForm from "@/app/sign-up/signForm";
 
@@ -52,14 +52,14 @@ describe("SignForm Component", () => {
     });
   });
 
-  // it("navigates to login page when 'Log in' is clicked", () => {
-  //   const push = vi.fn();
-  //   (useRouter as vi.Mock).mockReturnValue({ push });
+  it("navigates to login page when 'Log in' is clicked", () => {
+    const push = vi.fn();
+    (useRouter as Mock).mockReturnValue({ push });
 
-  //   render(<SignForm />);
+    render(<SignForm />);
 
-  //   fireEvent.click(screen.getByText(/Log in/i));
+    fireEvent.click(screen.getByText(/Log in/i));
 
-  //   expect(push).toHaveBeenCalledWith("/login");
-  // });
+    expect(push).toHaveBeenCalledWith("/sign-in");
+  });
 });

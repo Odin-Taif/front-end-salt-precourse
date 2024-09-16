@@ -10,9 +10,8 @@ type Props = {
   disabled?: boolean;
   required?: boolean | string;
   register: UseFormRegister<FieldValues>;
-  // errors: FieldErrors;
   onFocus?: () => void;
-  onBlur?: () => void; // Add the onFocus prop
+  onBlur?: () => void;
   validate?: FieldValues;
 };
 
@@ -25,7 +24,7 @@ function Input({
   required,
   validate,
   register,
-  onFocus, // Destructure the onFocus prop
+  onFocus,
   onBlur,
 }: Props) {
   const [passwordShown, setPasswordShown] = useState(false);

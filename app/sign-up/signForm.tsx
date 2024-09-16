@@ -9,13 +9,7 @@ import { signUpSchema } from "../zod-validation/zod-validiation";
 import { z } from "zod";
 
 const SignForm = () => {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    reset,
-    // formState: { errors },
-  } = useForm<FieldValues>({
+  const { register, handleSubmit, watch, reset } = useForm<FieldValues>({
     defaultValues: {
       name: "",
       email: "",
