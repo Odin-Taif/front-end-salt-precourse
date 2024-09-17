@@ -3,12 +3,10 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Heading, Input } from "@/app/components/reusable/index";
-import { signUpSchema } from "../zod-validation/zod-validiation";
+import { FieldValues, signUpSchema } from "../zod-validation/zod-validiation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import axios from "axios";
 
-type FieldValues = z.infer<typeof signUpSchema>;
 const SignForm = () => {
   const {
     register,

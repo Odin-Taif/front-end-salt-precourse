@@ -1,15 +1,13 @@
 import React, { useState } from "react";
-import { UseFormRegister } from "react-hook-form";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import { signUpSchema } from "../../zod-validation/zod-validiation";
-type FieldValues = z.infer<typeof signUpSchema>;
+
 type Props = {
   id: string;
   label?: string;
   placeholder?: string;
   type?: string;
   disabled?: boolean;
-  register: UseFormRegister<FieldValues>;
+  register: any;
   onFocus?: () => void;
   onBlur?: () => void;
 };
