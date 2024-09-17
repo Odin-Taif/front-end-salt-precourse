@@ -8,90 +8,49 @@ import {
   signUpSchema,
 } from "../zod-validation/zod-validiation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
+import { useFormState } from "react-dom";
+import { signupAction } from "../actions";
+import { SubmitButton } from "./submit-btn";
 
 const SignUpForm = () => {
+  const [state, formAction] = useFormState(signupAction, null);
   const {
     register,
-    handleSubmit,
-    reset,
     formState: { errors },
   } = useForm<SignUpFieldValues>({
     resolver: zodResolver(signUpSchema),
   });
-
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
-
-  // Function to handle form submission
-  const onSubmit: SubmitHandler<SignUpFieldValues> = (data) => {
-    // console.log(data);
-    setIsLoading(true);
-    axios
-      .post("https://salt.odinobusi.online/api/v1/users/signup", data)
-      .catch((err: any) => console.log(err))
-      .then(() => {
-        setIsLoading(false);
-        reset();
-        router.push("/sign-in");
-      });
-  };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
       <div className="bg-gray-100 text-black rounded m-auto p-3 w-full max-w-md sm:p-8  md:max-w-lg  md:p-8 lg:max-w-xl xl:max-w-2xl">
         <div className="flex flex-col gap-2">
           <Heading title="Saltis!" subtitle="Create an Account!" center />
-          <form>
-            <Input
-              id="email"
-              label="Email Address"
-              disabled={isLoading}
-              register={register}
-            />
-            {/* error email handling */}
-            {errors.email?.message && (
-              <span className="text-rose-500 px-3">
-                {errors.email.message.toString()}
-              </span>
-            )}
+          <form action={formAction}>
+            <Input id="email" label="Email Address" register={register} />
+            <span aria-live="polite" className="text-red-700 p-5">
+              {state?.errors && JSON.stringify(state.errors.email)}
+            </span>
+            {/* -=-=-=-=-=-========= -=-=-=-=-=-========= -=-=-=-=-=-========= -=-=-=-=-=-========= */}
+            <Input id="name" label="Full Name" register={register} />
+            <span aria-live="polite" className="text-red-700 p-5">
+              {state?.errors && JSON.stringify(state.errors.name)}
+            </span>
+            {/* -=-=-=-=-=-========= -=-=-=-=-=-========= -=-=-=-=-=-========= -=-=-=-=-=-========= */}
 
-            {/* -=-=-=-=-=-========= -=-=-=-=-=-========= -=-=-=-=-=-========= -=-=-=-=-=-========= */}
-            <Input
-              id="name"
-              label="Full Name"
-              disabled={isLoading}
-              register={register}
-            />
-            {/* error name handling */}
-            {errors.name?.message && (
-              <span className="text-rose-500 px-3">
-                {errors.name.message.toString()}
-              </span>
-            )}
-            {/* -=-=-=-=-=-========= -=-=-=-=-=-========= -=-=-=-=-=-========= -=-=-=-=-=-========= */}
             <Input
               id="password"
               label="Password"
-              disabled={isLoading}
               register={register}
               type="password"
             />
-            {/* error password handling */}
-            {errors.password?.message && (
-              <span className="text-rose-500 px-3 ">
-                {errors.password.message.toString()}
-              </span>
-            )}
-          </form>
+            <span aria-live="polite" className="text-red-700 p-5">
+              {state?.errors && JSON.stringify(state.errors.password)}
+            </span>
 
-          <button className="btn btn-accent" onClick={handleSubmit(onSubmit)}>
-            {isLoading ? (
-              <span className="loading loading-spinner">Loading...</span>
-            ) : (
-              "Sign Up"
-            )}
-          </button>
+            <SubmitButton />
+          </form>
         </div>
         <div className="flex flex-col py-10">
           <hr />
