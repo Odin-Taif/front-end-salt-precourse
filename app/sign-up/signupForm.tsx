@@ -38,7 +38,6 @@ const SignUpForm = () => {
               {state?.errors && JSON.stringify(state.errors.name)}
             </span>
             {/* -=-=-=-=-=-========= -=-=-=-=-=-========= -=-=-=-=-=-========= -=-=-=-=-=-========= */}
-
             <Input
               id="password"
               label="Password"
