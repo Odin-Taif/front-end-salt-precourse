@@ -15,7 +15,7 @@ type Props = {
   validate?: FieldValues;
 };
 
-function Input({
+export const Input = ({
   id,
   label,
   placeholder,
@@ -26,7 +26,7 @@ function Input({
   register,
   onFocus,
   onBlur,
-}: Props) {
+}: Props) => {
   const [passwordShown, setPasswordShown] = useState(false);
   const togglePassword = () => {
     setPasswordShown(!passwordShown);
@@ -70,6 +70,4 @@ function Input({
       </label>
     </div>
   );
-}
-
-export default Input;
+};

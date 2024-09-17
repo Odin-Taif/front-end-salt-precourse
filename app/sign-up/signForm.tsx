@@ -2,11 +2,9 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { FieldValues, useForm, SubmitHandler } from "react-hook-form";
-import Heading from "@/app/components/reusable/Heading";
-import Input from "../components/reusable/Input";
+import { Heading, Input } from "@/app/components/reusable/index";
 import axios from "axios";
 import { signUpSchema } from "../zod-validation/zod-validiation";
-import { z } from "zod";
 
 const SignForm = () => {
   const { register, handleSubmit, watch, reset } = useForm<FieldValues>({
