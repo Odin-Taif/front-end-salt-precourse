@@ -1,7 +1,13 @@
 import React from "react";
+import Container from "../components/reusable/Container";
+import SignInForm from "./signinForm";
 
 const SignInPage = () => {
-  return <div>SignInPage</div>;
+  return (
+    <Container>
+      <SignInForm />
+    </Container>
+  );
 };
 
 export default SignInPage;

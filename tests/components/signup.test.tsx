@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, Mock } from "vitest";
 import { useRouter } from "next/navigation";
-import SignForm from "@/app/sign-up/signForm";
+import SignForm from "@/app/sign-up/signupForm";
 
 vi.mock("next/navigation", () => ({
   useRouter: vi.fn(),

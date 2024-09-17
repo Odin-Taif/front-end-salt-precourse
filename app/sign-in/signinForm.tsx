@@ -3,33 +3,41 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Heading, Input } from "@/app/components/reusable/index";
-import { FieldValues, signUpSchema } from "../zod-validation/zod-validiation";
+import {
+  SignInFieldValues,
+  signInSchema,
+} from "../zod-validation/zod-validiation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 
-const SignForm = () => {
+const SignInForm = () => {
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<FieldValues>({
-    resolver: zodResolver(signUpSchema),
+  } = useForm<SignInFieldValues>({
+    resolver: zodResolver(signInSchema),
   });
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
 
   // Function to handle form submission
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    // console.log(data);
+  const onSubmit: SubmitHandler<SignInFieldValues> = (data) => {
     setIsLoading(true);
+    console.log("Request Data:", data); // Log the data being sent
     axios
-      .post("https://salt.odinobusi.online/api/v1/users/signup", data)
-      .catch((err: any) => console.log(err))
-      .then(() => {
+      .post("https://salt.odinobusi.online/api/v1/users/login", data)
+      .then((response) => {
+        console.log("Response Data:", response.data); // Log response data
         setIsLoading(false);
-        reset();
+        // reset();
+        // router.push("/");
+      })
+      .catch((err) => {
+        console.error("Error:", err.response ? err.response.data : err.message); // Log error response
+        setIsLoading(false);
       });
   };
 
@@ -47,24 +55,11 @@ const SignForm = () => {
             />
             {/* error email handling */}
             {errors.email?.message && (
-              <small className="text-rose-500 px-3">
+              <span className="text-rose-500 px-3">
                 {errors.email.message.toString()}
-              </small>
+              </span>
             )}
 
-            {/* -=-=-=-=-=-========= -=-=-=-=-=-========= -=-=-=-=-=-========= -=-=-=-=-=-========= */}
-            <Input
-              id="name"
-              label="Full Name"
-              disabled={isLoading}
-              register={register}
-            />
-            {/* error name handling */}
-            {errors.name?.message && (
-              <small className="text-rose-500 px-3">
-                {errors.name.message.toString()}
-              </small>
-            )}
             {/* -=-=-=-=-=-========= -=-=-=-=-=-========= -=-=-=-=-=-========= -=-=-=-=-=-========= */}
             <Input
               id="password"
@@ -75,9 +70,9 @@ const SignForm = () => {
             />
             {/* error password handling */}
             {errors.password?.message && (
-              <small className="text-rose-500 px-3 ">
+              <span className="text-rose-500 px-3 ">
                 {errors.password.message.toString()}
-              </small>
+              </span>
             )}
           </form>
 
@@ -85,22 +80,20 @@ const SignForm = () => {
             {isLoading ? (
               <span className="loading loading-spinner">Loading...</span>
             ) : (
-              "Sign Up"
+              "Sign In"
             )}
           </button>
         </div>
         <div className="flex flex-col py-10">
           <hr />
-          <div className="text-neutral-500 text-center font-light">
-            <div>
-              Already have an account?
-              <span
-                onClick={() => router.push("/sign-in")}
-                className="text-neutral-800 cursor-pointer hover:underline"
-              >
-                Log in
-              </span>
-            </div>
+          <div className="text-neutral-500 text-center font-light pt-3">
+            You don't have an account.Register now!?
+            <span
+              onClick={() => router.push("/sign-up")}
+              className="text-green-700 cursor-pointer hover:underline mx-2"
+            >
+              Sign up
+            </span>
           </div>
         </div>
       </div>
@@ -108,4 +101,4 @@ const SignForm = () => {
   );
 };
 
-export default SignForm;
+export default SignInForm;

@@ -1,11 +1,11 @@
 import Container from "../components/reusable/Container";
-import SignForm from "./signForm";
+import SignUpForm from "./signupForm";
 
 const SignupPage = () => {
   return (
     <>
       <Container>
-        <SignForm />
+        <SignUpForm />
       </Container>
     </>
   );

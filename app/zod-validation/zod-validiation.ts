@@ -40,4 +40,5 @@ export const forgotPasswordSchema = z.object({
 });
 
 //--------------------------------------------
-export type FieldValues = z.infer<typeof signUpSchema>;
+export type SignUpFieldValues = z.infer<typeof signUpSchema>;
+export type SignInFieldValues = z.infer<typeof signInSchema>;
