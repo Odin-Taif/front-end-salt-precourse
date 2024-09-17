@@ -1,18 +1,17 @@
 import React, { useState } from "react";
-import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
+import { UseFormRegister } from "react-hook-form";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-
+import { signUpSchema } from "../../zod-validation/zod-validiation";
+type FieldValues = z.infer<typeof signUpSchema>;
 type Props = {
   id: string;
   label?: string;
   placeholder?: string;
   type?: string;
   disabled?: boolean;
-  required?: boolean | string;
   register: UseFormRegister<FieldValues>;
   onFocus?: () => void;
   onBlur?: () => void;
-  validate?: FieldValues;
 };
 
 export const Input = ({
@@ -21,8 +20,6 @@ export const Input = ({
   placeholder,
   type,
   disabled,
-  required,
-  validate,
   register,
   onFocus,
   onBlur,
@@ -36,11 +33,7 @@ export const Input = ({
       <input
         id={id}
         disabled={disabled}
-        {...register(id, {
-          required,
-          validate: validate,
-        })}
-        // ref={register({ requried: true, validate: validate })}
+        {...register(id)}
         placeholder=""
         type={
           type === "password" ? (passwordShown ? "text" : "password") : type

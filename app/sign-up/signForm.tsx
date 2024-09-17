@@ -1,24 +1,27 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { FieldValues, useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { Heading, Input } from "@/app/components/reusable/index";
+import { signUpSchema } from "../zod-validation/zod-validiation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import axios from "axios";
-// import { signUpSchema } from "../zod-validation/zod-validiation";
 
+type FieldValues = z.infer<typeof signUpSchema>;
 const SignForm = () => {
-  const { register, handleSubmit, reset } = useForm<FieldValues>({
-    defaultValues: {
-      name: "",
-      email: "",
-      password: "",
-    },
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<FieldValues>({
+    resolver: zodResolver(signUpSchema),
   });
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
 
-  // const onSubmit: SubmitHandler<FieldValues> = (data) => console.log(data);
   // Function to handle form submission
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     // console.log(data);
@@ -43,28 +46,41 @@ const SignForm = () => {
               label="Email Address"
               disabled={isLoading}
               register={register}
-              required
-              validate={() => console.log("first")}
             />
+            {/* error email handling */}
+            {errors.email?.message && (
+              <small className="text-rose-500 px-3">
+                {errors.email.message.toString()}
+              </small>
+            )}
 
+            {/* -=-=-=-=-=-========= -=-=-=-=-=-========= -=-=-=-=-=-========= -=-=-=-=-=-========= */}
             <Input
               id="name"
               label="Full Name"
               disabled={isLoading}
               register={register}
-              validate={() => console.log("first")}
-              required
             />
-
+            {/* error name handling */}
+            {errors.name?.message && (
+              <small className="text-rose-500 px-3">
+                {errors.name.message.toString()}
+              </small>
+            )}
+            {/* -=-=-=-=-=-========= -=-=-=-=-=-========= -=-=-=-=-=-========= -=-=-=-=-=-========= */}
             <Input
               id="password"
               label="Password"
               disabled={isLoading}
               register={register}
-              required
-              validate={() => console.log("first")}
               type="password"
             />
+            {/* error password handling */}
+            {errors.password?.message && (
+              <small className="text-rose-500 px-3 ">
+                {errors.password.message.toString()}
+              </small>
+            )}
           </form>
 
           <button className="btn btn-accent" onClick={handleSubmit(onSubmit)}>
@@ -79,7 +95,7 @@ const SignForm = () => {
           <hr />
           <div className="text-neutral-500 text-center font-light">
             <div>
-              Already have an account?{" "}
+              Already have an account?
               <span
                 onClick={() => router.push("/sign-in")}
                 className="text-neutral-800 cursor-pointer hover:underline"
