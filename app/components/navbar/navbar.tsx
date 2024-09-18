@@ -8,14 +8,7 @@ const links = [
     name: "Home",
     href: "/",
   },
-  {
-    name: "About",
-    href: "/about",
-  },
-  {
-    name: "Contact",
-    href: "/contact",
-  },
+
   {
     name: "Sign In",
     href: "/sign-in",
@@ -23,6 +16,10 @@ const links = [
   {
     name: "Sign Up",
     href: "/sign-up",
+  },
+  {
+    name: "Users",
+    href: "/users",
   },
 ];
 
