@@ -14,9 +14,10 @@ export async function signupAction(prevState: any, formData: FormData) {
 
   // To be discussed with Marcus, If it is better to refelect the error message from the server |
   // or to use the generic message below
+  // also what If I want to chain some other actions with a successful signup, how do I do that?
+
   if (!userValidated.success) {
     const errors = userValidated.error.flatten().fieldErrors;
-    // Build detailed error messages
     const errorMessages: Record<string, string> = {};
 
     if (errors.email) {
