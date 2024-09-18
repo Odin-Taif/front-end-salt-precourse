@@ -1,6 +1,8 @@
 import { fetchUsers } from "../lib/fetchUsers";
 
 // this is a ansync function that returns the page, it allows you to fetch data before rendering the page
+// this page is a server component
+// We are fetch data directly from the database without using the API layer.
 export default async function UsersPage() {
   const users = await fetchUsers();
   // console.log(users);
