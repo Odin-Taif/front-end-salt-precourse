@@ -1,15 +1,17 @@
 import { db } from "@/drizzle/dbschema/db";
 import { users } from "@/drizzle/dbschema/schema";
+import { eq, like } from "drizzle-orm";
 
-export async function fetchUsers() {
+// Function to fetch users by name query
+export async function fetchUsers(query: string, currentPage: number) {
   try {
-    // We artificially delay a response for demo purposes.
+    // Fetch users where the name matches the query (partial match)
+    const userList = await db
+      .select()
+      .from(users)
+      .where(like(users.name, `%${query}%`)) // Using "like" for partial matches
+      .execute();
 
-    // Try it if u want to see how suspence is working.
-    // console.log("Fetching revenue data...");
-    // await new Promise((resolve) => setTimeout(resolve, 3000));
-    // console.log("Data fetch completed after 3 seconds.");
-    const userList = await db.select().from(users).execute();
     return userList;
   } catch (error) {
     console.error("Error fetching users:", error);

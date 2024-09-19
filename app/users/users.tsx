@@ -1,8 +1,8 @@
 import React from "react";
 import { fetchUsers } from "../lib/fetchUsers";
 
-export const Users = async () => {
-  const users = await fetchUsers();
+export const Users = async ({ query, currentPage }: any) => {
+  const users = await fetchUsers(query, currentPage);
   return (
     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
       {users &&
