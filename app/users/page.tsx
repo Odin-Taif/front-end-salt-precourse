@@ -1,10 +1,11 @@
-import { fetchUsers } from "../lib/fetchUsers";
+import { Suspense } from "react";
+import Users from "./users";
+import Loading from "./loading";
 
 // this is a ansync function that returns the page, it allows you to fetch data before rendering the page
 // this page is a server component
 // We are fetch data directly from the database without using the API layer.
 export default async function UsersPage() {
-  const users = await fetchUsers();
   // console.log(users);
   return (
     <main>
@@ -13,15 +14,11 @@ export default async function UsersPage() {
         This is a ansync function that returns the page, it allows you to fetch
         data before rendering the page.
       </h2>
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {users &&
-          users.map((user) => (
-            <div key={user.id} className="p-4 bg-white rounded-lg shadow-md">
-              <h2 className="text-lg font-semibold">{user.name}</h2>
-              <p className="text-gray-500">{user.email}</p>
-            </div>
-          ))}
-      </div>
+      {/* will convert this component to use streaming. This component is being streamed, meaning this is a dynamic rendered components 
+      will not effect the whloe page when fetching data, it will susbpense until a condition is met. The page will be rendered regardsless.*/}
+      <Suspense fallback={<Loading />}>
+        <Users />
+      </Suspense>
     </main>
   );
 }
