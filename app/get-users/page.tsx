@@ -14,7 +14,11 @@ export default async function UsersPage({
     page?: string;
   };
 }) {
+  //
+  // The searchParams in your UsersPage component are part of Next.js' routing system.
+  // Specifically, in Next.js, when using the new App Router (introduced in Next.js 13), route parameters (including searchParams) are automatically provided to your server components.
   // console.log(users);
+  // These are the default values for the searchParams object.
   const query = searchParams?.query || "";
   const currentPage = Number(searchParams?.page) || 1;
 

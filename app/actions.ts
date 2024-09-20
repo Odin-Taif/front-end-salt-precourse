@@ -1,4 +1,5 @@
 "use server";
+import { revalidatePath } from "next/cache";
 import { signUpSchema } from "../drizzle/dbschema/zod-validations";
 import axios from "axios";
 
@@ -52,6 +53,10 @@ export async function signupAction(prevState: any, formData: FormData) {
           "An unexpected error occurred during sign up. Please try again.",
       };
     }
+
+    // this is ensure that each time we add a new user to our database, we revalidate the get-users path.
+    // becuse nextjs has client side caching, we need to revalidate the path to get the latest data.
+    revalidatePath("/get-users");
 
     return {
       success: true,
