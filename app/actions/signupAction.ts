@@ -46,7 +46,7 @@ export async function signupAction(prevState: any, formData: FormData) {
       "https://salt.odinobusi.online/api/v1/users/signup",
       { email, password, name }
     );
-
+    console.log(response);
     if (response.status !== 201) {
       return {
         success: false,
