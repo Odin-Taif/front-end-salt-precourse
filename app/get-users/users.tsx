@@ -1,5 +1,5 @@
 import React from "react";
-import { fetchUsers } from "../lib/fetchUsers";
+import { fetchUsers } from "../actions/fetchUsersAction";
 
 export const Users = async ({ query, currentPage }: any) => {
   const users = await fetchUsers(query, currentPage);

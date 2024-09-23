@@ -9,7 +9,7 @@ import {
 } from "../zod-validation/zod-validiation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useFormState } from "react-dom";
-import { signupAction } from "../actions";
+import { signupAction } from "../actions/signupAction";
 import { SubmitButton } from "./submit-btn";
 
 const SignUpForm = () => {
